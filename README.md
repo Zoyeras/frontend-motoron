@@ -1,73 +1,47 @@
-# React + TypeScript + Vite
+# MotorON PWA Frontend 📱
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este es el frontend de la solución PWA MotorON, desarrollada con React, TypeScript y Vite. La aplicación está diseñada como un Panel de Control / Dashboard para llevar registro del historial de uso del vehículo sin preocuparse de la conectividad.
 
-Currently, two official plugins are available:
+## 🛠 Entorno de Desarrollo y Estructura
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+El frontend consume la API del proyecto base. Está construido sobre **Vite** para desarrollo y empaquetado ultra-rápido, y los estilos se aplican vía `App.css` (Glassmorphism de tema oscuro).
 
-## React Compiler
+Los módulos básicos:
+- **`src/App.tsx`:** Dashboard Principal e inyección visual.
+- **`src/services/apiClient.ts`:** Wrapper REST genérico para el backend.
+- **PWA Offline Ready:** Cuenta con Manifest y configuración de Service Worker base (actualmente estático pero ampliable).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Requisitos Mínimos
+- Node.js (18 o superior)
+- Navegador moderno como Chrome, Edge (para características PWA nativas)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🏃‍♀️ Levantar el Frontend Local
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Asegúrate de tener funcionando tu servidor PostgreSQL y tu API de C# (`backend-motoron`) antes de correr estos comandos para evitar errores de conexión (`404` / `CORS`).
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+```bash
+# 1. Instala los paquetes y dependencias NPM a partir del `package.json`
+npm install
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# 2. Configura tu entorno
+# Asegúrate de crear `.env` siguiendo `.env.example`
+# VITE_API_URL=http://localhost:5014/api
+
+# 3. Arranca el entorno de desarrollo
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Esto alzará el proyecto en [http://localhost:5173/](http://localhost:5173/).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🌟 Características Destacadas
+- **Indicador Dinámico en Tiempo Real**: Cálculo visual del próximo cambio de aceite (Predictivo).
+- **Glassmorphism**: Apariencia moderna lista para móviles y tabletas sin librerías pesadas CSS.
+- **Recargas sin Fricciones**: Promesas `useEffect` y peticiones limpias a los enrutadores C#.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🤝 Comandos Útiles
+
+- `npm run dev` para el servidor de desarrollo Vite con Hot Module Replacement (HMR).
+- `npm run build` para producción (compilar y generar el bundle final de la app de React en `/dist`).
+- `npm run preview` para probar el build generado en tu servidor local.
