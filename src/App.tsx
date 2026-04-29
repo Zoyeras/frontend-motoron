@@ -214,19 +214,34 @@ function App() {
         </p>
       </section>
 
-      {/* Modals for forms (basic inline for now) */}
+      {/* Modals for forms */}
       {showMaintenanceForm && (
-        <div className="modal-overlay" style={{background: 'rgba(0,0,0,0.5)', position: 'fixed', inset: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100}}>
-          <div className="modal-content" style={{background: 'white', padding: '20px', borderRadius: '8px', color: 'black', width: '90%', maxWidth: '400px'}}>
-            <h3 style={{marginTop: 0}}>Nuevo Mantenimiento</h3>
-            <form onSubmit={handleCreateMaintenance} style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-              <input type="text" placeholder="Tipo (ej. Cambio de aceite)" value={mForm.tipo} onChange={e => setMForm({...mForm, tipo: e.target.value})} required style={{padding: '8px'}} />
-              <input type="date" value={mForm.fecha} onChange={e => setMForm({...mForm, fecha: e.target.value})} required style={{padding: '8px'}} />
-              <input type="number" placeholder="Kilometraje" value={mForm.kilometraje} onChange={e => setMForm({...mForm, kilometraje: e.target.value})} required style={{padding: '8px'}} />
-              <input type="text" placeholder="Notas (opcional)" value={mForm.notas} onChange={e => setMForm({...mForm, notas: e.target.value})} style={{padding: '8px'}} />
-              <div style={{display: 'flex', gap: '10px', marginTop: '10px'}}>
-                <button type="submit" className="primary-button" style={{flex: 1}}>Guardar</button>
-                <button type="button" onClick={() => setShowMaintenanceForm(false)} className="secondary-button" style={{flex: 1}}>Cancelar</button>
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Nuevo Mantenimiento</h3>
+            <p className="modal-description">Registra un nuevo servicio para tu vehículo.</p>
+            <form onSubmit={handleCreateMaintenance} className="motoron-form">
+              <div className="form-group">
+                <label>Tipo de Servicio</label>
+                <input type="text" placeholder="Ej. Cambio de aceite, Frenos..." value={mForm.tipo} onChange={e => setMForm({...mForm, tipo: e.target.value})} required />
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Fecha</label>
+                  <input type="date" value={mForm.fecha} onChange={e => setMForm({...mForm, fecha: e.target.value})} required />
+                </div>
+                <div className="form-group">
+                  <label>Kilometraje</label>
+                  <input type="number" placeholder="Ej. 45000" value={mForm.kilometraje} onChange={e => setMForm({...mForm, kilometraje: e.target.value})} required />
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Notas (Opcional)</label>
+                <input type="text" placeholder="Marca de aceite, taller..." value={mForm.notas} onChange={e => setMForm({...mForm, notas: e.target.value})} />
+              </div>
+              <div className="form-actions">
+                <button type="button" onClick={() => setShowMaintenanceForm(false)} className="secondary-button">Cancelar</button>
+                <button type="submit" className="primary-button">Guardar Mantenimiento</button>
               </div>
             </form>
           </div>
@@ -234,17 +249,34 @@ function App() {
       )}
 
       {showFuelForm && (
-        <div className="modal-overlay" style={{background: 'rgba(0,0,0,0.5)', position: 'fixed', inset: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100}}>
-          <div className="modal-content" style={{background: 'white', padding: '20px', borderRadius: '8px', color: 'black', width: '90%', maxWidth: '400px'}}>
-            <h3 style={{marginTop: 0}}>Nuevo Gasto de Combustible</h3>
-            <form onSubmit={handleCreateFuel} style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-              <input type="date" value={fForm.fecha} onChange={e => setFForm({...fForm, fecha: e.target.value})} required style={{padding: '8px'}} />
-              <input type="number" placeholder="Kilometraje actual" value={fForm.kilometraje} onChange={e => setFForm({...fForm, kilometraje: e.target.value})} required style={{padding: '8px'}} />
-              <input type="number" step="0.01" placeholder="Litros" value={fForm.litros} onChange={e => setFForm({...fForm, litros: e.target.value})} required style={{padding: '8px'}} />
-              <input type="number" step="0.01" placeholder="Costo total ($)" value={fForm.costo} onChange={e => setFForm({...fForm, costo: e.target.value})} required style={{padding: '8px'}} />
-              <div style={{display: 'flex', gap: '10px', marginTop: '10px'}}>
-                <button type="submit" className="primary-button" style={{flex: 1}}>Guardar</button>
-                <button type="button" onClick={() => setShowFuelForm(false)} className="secondary-button" style={{flex: 1}}>Cancelar</button>
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Nuevo Gasto de Combustible</h3>
+            <p className="modal-description">Registra tu última recarga para llevar el control.</p>
+            <form onSubmit={handleCreateFuel} className="motoron-form">
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Fecha</label>
+                  <input type="date" value={fForm.fecha} onChange={e => setFForm({...fForm, fecha: e.target.value})} required />
+                </div>
+                <div className="form-group">
+                  <label>Kilometraje Actual</label>
+                  <input type="number" placeholder="Ej. 45500" value={fForm.kilometraje} onChange={e => setFForm({...fForm, kilometraje: e.target.value})} required />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Litros (L)</label>
+                  <input type="number" step="0.01" placeholder="Ej. 40.5" value={fForm.litros} onChange={e => setFForm({...fForm, litros: e.target.value})} required />
+                </div>
+                <div className="form-group">
+                  <label>Costo Total ($)</label>
+                  <input type="number" step="0.01" placeholder="Ej. 50000" value={fForm.costo} onChange={e => setFForm({...fForm, costo: e.target.value})} required />
+                </div>
+              </div>
+              <div className="form-actions">
+                <button type="button" onClick={() => setShowFuelForm(false)} className="secondary-button">Cancelar</button>
+                <button type="submit" className="primary-button">Guardar Gasto</button>
               </div>
             </form>
           </div>
