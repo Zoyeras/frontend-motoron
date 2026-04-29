@@ -82,31 +82,33 @@ function App() {
     }
   }
 
+  const totalFuelCost = fuelItems?.reduce((sum, item) => sum + (Number(item.costo) || 0), 0) || 0
+  const totalMaintenances = maintenanceItems?.length || 0
+  const avgKm = forecast?.averageDailyKilometers || 0
+
   return (
-    <main className="app-shell">
-      <section className="hero-panel">
-        <div className="hero-copy">
-          <span className="eyebrow">MotorON PWA</span>
-          <h1>Controla mantenimiento y combustible sin perder el ritmo del taller.</h1>
-          <p>
-            Registra mantenimientos, gastos de combustible y calcula el próximo cambio de aceite
-            según tu recorrido diario.
-          </p>
-
-          <div className="hero-actions">
-            <button type="button" className="primary-button">
-              Instalar en celular
-            </button>
-            <button type="button" className="secondary-button">
-              Ver historial
-            </button>
-          </div>
+    <main className="app-shell dashboard-layout">
+      <header className="dashboard-header">
+        <div className="brand-logo">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2 17L12 22L22 17" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2 12L12 17L22 12" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <h1>MotorON Panel</h1>
         </div>
+        <div className="header-actions">
+          <button type="button" className="secondary-button" onClick={() => loadData()}>
+             Recargar Datos
+          </button>
+        </div>
+      </header>
 
-        <aside className="hero-card">
+      <section className="kpi-grid">
+        <aside className="hero-card kpi-main">
           <div className="hero-card__top">
             <span>Próximo cambio de aceite</span>
-            <strong>{forecast?.estimatedDate ? new Date(forecast.estimatedDate).toLocaleDateString() : '—'}</strong>
+            <strong>{forecast?.estimatedDate ? new Date(forecast.estimatedDate).toLocaleDateString() : 'Pendiente'}</strong>
           </div>
           <div className="progress-ring" aria-hidden="true">
             <div className="progress-ring__value">{forecast ? `${Math.round(((forecast.oilChangeIntervalKilometers - (forecast.kilometersSinceLastOilChange ?? 0)) / forecast.oilChangeIntervalKilometers) * 100)}%` : '—'}</div>
@@ -114,11 +116,11 @@ function App() {
           <ul className="hero-card__stats">
             <li>
               <span>Promedio diario</span>
-              <strong>{forecast?.averageDailyKilometers ?? '—'}</strong>
+              <strong>{forecast?.averageDailyKilometers ? `${forecast.averageDailyKilometers} km` : '—'}</strong>
             </li>
             <li>
               <span>Km restantes</span>
-              <strong>{forecast?.kilometersRemaining ?? '—'}</strong>
+              <strong>{forecast?.kilometersRemaining ? `${forecast.kilometersRemaining} km` : '—'}</strong>
             </li>
             <li>
               <span>Último servicio</span>
@@ -126,24 +128,30 @@ function App() {
             </li>
           </ul>
         </aside>
-      </section>
 
-      <section className="stats-grid">
-        <article className="stat-card accent">
-          <span>Total gastado en combustible</span>
-          <strong>$139.900</strong>
-          <small>Últimos 30 días</small>
-        </article>
-        <article className="stat-card">
-          <span>Mantenimientos registrados</span>
-          <strong>12</strong>
-          <small>Historial completo</small>
-        </article>
-        <article className="stat-card">
-          <span>Promedio km/día</span>
-          <strong>72</strong>
-          <small>Basado en carga reciente</small>
-        </article>
+        <div className="kpi-stats">
+          <article className="stat-card accent">
+            <div className="stat-card-icon">
+              <span className="panel__label">Combustible</span>
+            </div>
+            <strong>${totalFuelCost.toLocaleString('es-ES')}</strong>
+            <small>Gasto Total Histórico</small>
+          </article>
+          <article className="stat-card">
+            <div className="stat-card-icon">
+              <span className="panel__label">Servicios</span>
+            </div>
+            <strong>{totalMaintenances}</strong>
+            <small>Mantenimientos registrados</small>
+          </article>
+          <article className="stat-card">
+            <div className="stat-card-icon">
+              <span className="panel__label">Uso Diario</span>
+            </div>
+            <strong>{avgKm} km/día</strong>
+            <small>Promedio dinámico</small>
+          </article>
+        </div>
       </section>
 
       <section className="content-grid">
