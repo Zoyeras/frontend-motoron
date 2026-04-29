@@ -69,24 +69,24 @@ export const maintenanceApi = {
  * Fuel Expense (GastoCombustible) API endpoints
  */
 export const fuelApi = {
-  list: () => apiCall<any[]>('/gastos-combustible'),
+  list: () => apiCall<any[]>('/gastoscombustible'),
 
-  getOne: (id: string) => apiCall<any>(`/gastos-combustible/${id}`),
+  getOne: (id: string) => apiCall<any>(`/gastoscombustible/${id}`),
 
   create: (data: any) =>
-    apiCall<any>('/gastos-combustible', {
+    apiCall<any>('/gastoscombustible', {
       method: 'POST',
       body: JSON.stringify(data),
     }),
 
   update: (id: string, data: any) =>
-    apiCall<any>(`/gastos-combustible/${id}`, {
+    apiCall<any>(`/gastoscombustible/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     }),
 
   delete: (id: string) =>
-    apiCall<any>(`/gastos-combustible/${id}`, {
+    apiCall<any>(`/gastoscombustible/${id}`, {
       method: 'DELETE',
     }),
 }
