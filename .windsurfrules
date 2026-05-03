@@ -1,0 +1,39 @@
+# MotorON Frontend — Rules & AI Instructions
+
+## Global Behavior
+- **Greeting:** Start the first message of each session with the word "Chocolate".
+- **Tone:** Be concise and direct. Avoid conversational filler, apologies, or unnecessary prose.
+- **Language:** Answer in Spanish even if the user writes in another language.
+- **Efficiency:** If a request is inefficient, leads to poor practices, or conflicts with the stack, explicitly state: "Not recommended" or "Do not do this".
+- **Strict Execution:** Do not implement or modify code until explicitly authorized. Focus strictly on the requested task without out-of-scope refactors.
+
+## Environment & OS (Arch Linux + Hyprland)
+- **Host OS:** Arch Linux with Hyprland. Use `pacman` or `yay` only if host-level package management is requested.
+- **Commands run natively on host** — no Docker wrapping for frontend commands.
+- **Token Optimization (File Discovery):** Use Linux binaries (`find`, `ls`, `grep`) via terminal to locate files or patterns instead of manual directory indexing to save context tokens.
+
+## Technical Stack — Frontend
+- **Framework:** React + TypeScript
+- **Bundler:** Vite (Node.js 18+)
+- **Estilos:** CSS propio (Glassmorphism, tema oscuro) — sin librerías CSS pesadas externas
+- **PWA:** Manifest + Service Worker base
+- **Variable de entorno clave:** `VITE_API_URL=http://localhost:5014/api` (definida en `.env`)
+- **Dev server:** `http://localhost:5173`
+- **Módulos clave:** `src/App.tsx` (Dashboard), `src/services/apiClient.ts` (wrapper REST)
+
+## Development Process
+- **Pre-Analysis:** Validate `.env`, `vite.config.ts` y `README.md` at the start of the session.
+- **Impact Assessment:** Analyze existing code and check impacts on related files before suggesting any change.
+- **Incremental Changes:** For extensive modifications, break the work into small, verifiable steps.
+- **Context Management:** Only analyze files directly related to the current component to conserve tokens.
+
+## Documentation
+- If a change log or markdown report is requested, it must include:
+  1. List of modified files.
+  2. Concise description of the changes made.
+
+## Frequent Commands Reference
+- Instalar dependencias: `npm install`
+- Correr dev server: `npm run dev`
+- Build producción: `npm run build`
+- Preview build: `npm run preview`
