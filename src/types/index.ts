@@ -1,3 +1,30 @@
+export interface Vehicle {
+  id: string
+  brand: string
+  model: string
+  year: number
+  currentMileage: number
+  placa: string | null
+  cilindraje: number | null
+  color: string | null
+  numeroSerie: string | null
+  createdAtUtc: string
+  updatedAtUtc: string
+}
+
+export interface VehicleCreate {
+  brand: string
+  model: string
+  year: number
+  currentMileage: number
+  placa?: string | null
+  cilindraje?: number | null
+  color?: string | null
+  numeroSerie?: string | null
+}
+
+export interface VehicleUpdate extends VehicleCreate {}
+
 export interface Mantenimiento {
   id: string
   vehicleId: string

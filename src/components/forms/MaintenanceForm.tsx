@@ -2,15 +2,15 @@ import { useState } from 'react'
 import { Modal } from './Modal'
 import { Button } from '../ui/Button'
 import { maintenanceApi } from '../../services/apiClient'
+import { useVehicle } from '../../context/VehicleContext'
 
 interface MaintenanceFormProps {
   onClose: () => void
   onSaved: () => void
 }
 
-const DEFAULT_VEHICLE_ID = '00000000-0000-0000-0000-000000000001'
-
 export function MaintenanceForm({ onClose, onSaved }: MaintenanceFormProps) {
+  const { vehicleId } = useVehicle()
   const [form, setForm] = useState({ tipo: '', kilometraje: '', fecha: '', costo: '', descripcion: '' })
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -21,7 +21,7 @@ export function MaintenanceForm({ onClose, onSaved }: MaintenanceFormProps) {
     setLoading(true)
     try {
       await maintenanceApi.create({
-        vehicleId: DEFAULT_VEHICLE_ID,
+        vehicleId: vehicleId!,
         tipo: form.tipo,
         fecha: new Date(form.fecha).toISOString(),
         kilometraje: parseInt(form.kilometraje),
