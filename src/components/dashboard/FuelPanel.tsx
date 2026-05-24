@@ -72,14 +72,8 @@ export function FuelPanel({ items, loading, onReload }: FuelPanelProps) {
               </div>
 
               <div style={{ display: 'grid', justifyItems: 'end', gap: '0.125rem' }}>
-                <span
-                  style={{
-                    fontSize: '0.8rem',
-                    color: '#22d3ee',
-                    fontWeight: 600,
-                  }}
-                >
-                  {item.litros ? `${Number(item.litros).toFixed(2)} L` : '—'}
+                <span style={{ fontSize: '0.775rem', color: '#475569' }}>
+                  {item.precioPorLitro ? `$${Number(item.precioPorLitro).toFixed(0)}/L` : ''}
                 </span>
                 <strong
                   style={{
@@ -91,7 +85,7 @@ export function FuelPanel({ items, loading, onReload }: FuelPanelProps) {
                     fontWeight: 700,
                   }}
                 >
-                  {item.costo ? `$${Number(item.costo).toFixed(2)}` : '—'}
+                  {item.costo ? `$${Number(item.costo).toLocaleString('es-CO')}` : '—'}
                 </strong>
               </div>
             </div>

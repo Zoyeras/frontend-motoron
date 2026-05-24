@@ -33,7 +33,7 @@ export interface GastoCombustible {
   fecha: string
   litros: number
   costo: number
-  kilometraje: number
+  kilometraje: number | null
   precioPorLitro: number
   createdAtUtc: string
   updatedAtUtc: string
@@ -44,14 +44,14 @@ export interface GastoCombustibleCreate {
   fecha: string
   litros: number
   costo: number
-  kilometraje: number
+  kilometraje?: number | null
 }
 
 export interface GastoCombustibleUpdate {
   fecha: string
   litros: number
   costo: number
-  kilometraje: number
+  kilometraje?: number | null
 }
 
 export interface OilChangeForecast {
