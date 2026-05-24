@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { VehicleProvider } from "./context/VehicleContext";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
 import { DashboardPage } from "./pages/DashboardPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -9,6 +10,7 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <VehicleProvider>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -22,6 +24,7 @@ function App() {
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        </VehicleProvider>
       </AuthProvider>
     </BrowserRouter>
   );

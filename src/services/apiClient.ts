@@ -1,4 +1,7 @@
 import type {
+  Vehicle,
+  VehicleCreate,
+  VehicleUpdate,
   Mantenimiento,
   MantenimientoCreate,
   MantenimientoUpdate,
@@ -61,6 +64,27 @@ async function apiCall<T>(
 
   return response.json();
 }
+
+/**
+ * Vehicle API endpoints
+ */
+export const vehicleApi = {
+  list: () => apiCall<Vehicle[]>("/vehicles"),
+
+  getOne: (id: string) => apiCall<Vehicle>(`/vehicles/${id}`),
+
+  create: (data: VehicleCreate) =>
+    apiCall<Vehicle>("/vehicles", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  update: (id: string, data: VehicleUpdate) =>
+    apiCall<void>(`/vehicles/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
+};
 
 /**
  * Auth API endpoints

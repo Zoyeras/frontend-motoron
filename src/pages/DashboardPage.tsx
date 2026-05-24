@@ -1,4 +1,5 @@
 import { Header } from '../components/layout/Header'
+import { VehicleCard } from '../components/vehicle/VehicleCard'
 import { KpiGrid } from '../components/dashboard/KpiGrid'
 import { MaintenancePanel } from '../components/dashboard/MaintenancePanel'
 import { FuelPanel } from '../components/dashboard/FuelPanel'
@@ -21,6 +22,8 @@ export function DashboardPage() {
   return (
     <main className="w-full max-w-[1180px] mx-auto px-4 py-8 flex flex-col gap-8">
       <Header onReload={loadData} />
+
+      <VehicleCard />
 
       <KpiGrid
         forecast={forecast}

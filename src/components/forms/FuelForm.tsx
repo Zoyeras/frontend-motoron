@@ -2,22 +2,19 @@ import { useState } from 'react'
 import { Modal } from './Modal'
 import { Button } from '../ui/Button'
 import { fuelApi } from '../../services/apiClient'
+import { useVehicle } from '../../context/VehicleContext'
 
 interface FuelFormProps {
   onClose: () => void
   onSaved: () => void
 }
 
-const DEFAULT_VEHICLE_ID = '00000000-0000-0000-0000-000000000001'
-
-// Precio galón por defecto Colombia (~$10.500 COP/gal aprox)
-const DEFAULT_PRECIO_GALON = ''
-
 export function FuelForm({ onClose, onSaved }: FuelFormProps) {
+  const { vehicleId } = useVehicle()
   const [form, setForm] = useState({
     fecha: '',
     kilometraje: '',
-    precioGalon: DEFAULT_PRECIO_GALON,
+    precioGalon: '',
     costo: '',
   })
   const [error, setError] = useState<string | null>(null)
@@ -50,7 +47,7 @@ export function FuelForm({ onClose, onSaved }: FuelFormProps) {
     setLoading(true)
     try {
       await fuelApi.create({
-        vehicleId: DEFAULT_VEHICLE_ID,
+        vehicleId: vehicleId!,
         fecha: new Date(form.fecha).toISOString(),
         litros,
         costo,
