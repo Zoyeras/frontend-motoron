@@ -14,32 +14,84 @@ export function FuelPanel({ items, loading, onReload }: FuelPanelProps) {
 
   return (
     <>
-      <article className="glass-card p-6">
-        <div className="flex items-start justify-between gap-3 mb-5">
+      <article className="glass-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        {/* Panel header */}
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.75rem' }}>
           <div>
             <span className="label-text">Combustible</span>
-            <h2 className="text-xl font-semibold text-slate-50 mt-2">Últimos registros</h2>
+            <h2 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#f1f5f9', margin: '0.5rem 0 0' }}>
+              Últimos registros
+            </h2>
           </div>
-          <Button variant="text" onClick={() => setShowForm(true)}>Nuevo gasto</Button>
+          <Button variant="secondary" onClick={() => setShowForm(true)}>
+            + Nuevo
+          </Button>
         </div>
 
-        <div className="grid gap-3">
-          {loading && <div className="text-muted">Loading...</div>}
-          {items && items.length === 0 && <div className="text-muted">No hay registros de combustible.</div>}
+        {/* Divider */}
+        <div className="neon-divider" />
+
+        {/* Items */}
+        <div style={{ display: 'grid', gap: '0.625rem' }}>
+          {loading && (
+            <div style={{ color: '#475569', fontSize: '0.875rem', padding: '1rem 0', textAlign: 'center' }}>
+              Cargando...
+            </div>
+          )}
+          {items && items.length === 0 && (
+            <div style={{ color: '#475569', fontSize: '0.875rem', padding: '2rem 0', textAlign: 'center' }}>
+              No hay registros de combustible.
+            </div>
+          )}
           {items?.map(item => (
-            <div key={item.id} className="glass-card-inner p-4 flex items-center justify-between gap-4">
-              <div>
-                <strong className="text-slate-50">
-                  {item.fecha ? new Date(item.fecha).toLocaleDateString() : ''}
-                </strong>
-                <p className="text-muted text-sm m-0">{item.kilometraje ? `${item.kilometraje} km` : ''}</p>
+            <div
+              key={item.id}
+              className="glass-card-inner"
+              style={{ padding: '0.875rem 1.125rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                {/* Icon dot — cyan for fuel */}
+                <div
+                  style={{
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #22d3ee, #818cf8)',
+                    boxShadow: '0 0 8px rgba(34,211,238,0.6)',
+                    flexShrink: 0,
+                  }}
+                />
+                <div>
+                  <strong style={{ color: '#f1f5f9', fontSize: '0.9rem', display: 'block' }}>
+                    {item.fecha ? new Date(item.fecha).toLocaleDateString() : '—'}
+                  </strong>
+                  {item.kilometraje ? (
+                    <span style={{ color: '#475569', fontSize: '0.775rem' }}>{item.kilometraje.toLocaleString()} km</span>
+                  ) : null}
+                </div>
               </div>
-              <div className="grid justify-items-end">
-                <span className="text-slate-200 font-semibold text-sm">
-                  {item.litros ? `${Number(item.litros).toFixed(2)} L` : ''}
+
+              <div style={{ display: 'grid', justifyItems: 'end', gap: '0.125rem' }}>
+                <span
+                  style={{
+                    fontSize: '0.8rem',
+                    color: '#22d3ee',
+                    fontWeight: 600,
+                  }}
+                >
+                  {item.litros ? `${Number(item.litros).toFixed(2)} L` : '—'}
                 </span>
-                <strong className="text-slate-50">
-                  {item.costo ? `$${Number(item.costo).toFixed(2)}` : ''}
+                <strong
+                  style={{
+                    fontSize: '0.9rem',
+                    background: 'linear-gradient(135deg, #c084fc, #22d3ee)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    fontWeight: 700,
+                  }}
+                >
+                  {item.costo ? `$${Number(item.costo).toFixed(2)}` : '—'}
                 </strong>
               </div>
             </div>

@@ -8,19 +8,20 @@ interface FuelFormProps {
   onSaved: () => void
 }
 
+const DEFAULT_VEHICLE_ID = '00000000-0000-0000-0000-000000000001'
+
 export function FuelForm({ onClose, onSaved }: FuelFormProps) {
-  const [form, setForm] = useState({
-    fecha: '',
-    kilometraje: '',
-    litros: '',
-    costo: '',
-  })
+  const [form, setForm] = useState({ fecha: '', kilometraje: '', litros: '', costo: '' })
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
+    setLoading(true)
     try {
       await fuelApi.create({
-        vehicleId: '00000000-0000-0000-0000-000000000000',
+        vehicleId: DEFAULT_VEHICLE_ID,
         fecha: new Date(form.fecha).toISOString(),
         litros: parseFloat(form.litros),
         costo: parseFloat(form.costo),
@@ -29,12 +30,23 @@ export function FuelForm({ onClose, onSaved }: FuelFormProps) {
       onSaved()
       onClose()
     } catch {
-      alert('Error al crear gasto de combustible')
+      setError('No se pudo guardar el gasto. Verifica los datos e intenta de nuevo.')
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <Modal title="Nuevo Gasto de Combustible" description="Registra tu última recarga para llevar el control." onClose={onClose}>
+      {error && (
+        <div style={{
+          background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)',
+          color: '#f87171', padding: '0.625rem 0.875rem', borderRadius: '0.625rem',
+          fontSize: '0.825rem', marginBottom: '1rem',
+        }}>
+          {error}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex gap-4">
           <div className="flex flex-col gap-1.5 flex-1">
@@ -57,8 +69,8 @@ export function FuelForm({ onClose, onSaved }: FuelFormProps) {
           </div>
         </div>
         <div className="flex justify-end gap-3 mt-4">
-          <Button variant="secondary" type="button" onClick={onClose}>Cancelar</Button>
-          <Button type="submit">Guardar Gasto</Button>
+          <Button variant="secondary" type="button" onClick={onClose} disabled={loading}>Cancelar</Button>
+          <Button type="submit" disabled={loading}>{loading ? 'Guardando...' : 'Guardar Gasto'}</Button>
         </div>
       </form>
     </Modal>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { maintenanceApi, fuelApi } from '../services/apiClient'
 import type { Mantenimiento, GastoCombustible, OilChangeForecast } from '../types'
 
@@ -9,7 +9,9 @@ export function useDashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const loadData = async () => {
+  // useCallback evita que loadData se recree en cada render,
+  // eliminando re-renders en cadena de componentes hijos
+  const loadData = useCallback(async () => {
     setLoading(true)
     setError(null)
     try {
@@ -27,15 +29,15 @@ export function useDashboard() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
   useEffect(() => {
     loadData()
-  }, [])
+  }, [loadData])
 
-  const totalFuelCost = fuelItems?.reduce((sum, item) => sum + (Number(item.costo) || 0), 0) || 0
-  const totalMaintenances = maintenanceItems?.length || 0
-  const avgKm = forecast?.averageDailyKilometers || 0
+  const totalFuelCost = fuelItems?.reduce((sum, item) => sum + (Number(item.costo) || 0), 0) ?? 0
+  const totalMaintenances = maintenanceItems?.length ?? 0
+  const avgKm = forecast?.averageDailyKilometers ?? 0
 
   return {
     maintenanceItems,
